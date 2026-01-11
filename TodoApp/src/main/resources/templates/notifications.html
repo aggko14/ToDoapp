@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+</head>
+<body class="container mt-5">
+<h1>Your Notifications</h1>
+
+<div th:if="${notificationCount == 0}" class="alert alert-info">
+    <i class="bi bi-bell-slash me-2"></i>No new reminders.
+</div>
+
+<div th:if="${notificationCount > 0}" class="alert alert-warning">
+    You have <strong th:text="${notificationCount}"></strong> active reminder(s)
+</div>
+
+<ul class="list-group" th:each="notif : ${notifications}">
+    <li class="list-group-item">
+        <strong th:text="${notif.message}"></strong>
+        <small class="text-muted d-block">
+            <span th:text="${#temporals.format(notif.createdAt, 'dd MMM yyyy HH:mm')}"></span>
+            - Task: <span th:text="${notif.task?.title ?: 'Deleted task'}"></span>
+        </small>
+    </li>
+</ul>
+
+<a href="/tasks" class="btn btn-primary mt-3">Back to Dashboard</a>
+</body>
+</html>
